@@ -90,10 +90,8 @@
       <input type="number" placeholder="Seu peso (em kg)" step="0.1" min="0" required id="peso">
       <select id="genero" required>
         <option value="">Selecione seu gênero</option>
-        <option value="bi">Bi</option>
-        <option value="trans">Trans</option>
-        <option value="gay">Gay</option>
-        <option value="normal">Normal</option>
+        <option value="homem">Homem</option>
+        <option value="mulher">Mulher</option>
       </select>
       <button type="submit">Cadastrar</button>
     </form>
@@ -144,7 +142,7 @@
 
     draw();
 
-    // IMC
+    // IMC com base no gênero
     const form = document.getElementById('cadastroForm');
     const resultado = document.getElementById('resultado');
 
@@ -153,21 +151,32 @@
 
       const altura = parseFloat(document.getElementById('altura').value);
       const peso = parseFloat(document.getElementById('peso').value);
+      const genero = document.getElementById('genero').value;
 
-      if (!altura || !peso || altura <= 0 || peso <= 0) {
-        resultado.textContent = "Preencha altura e peso corretamente!";
+      if (!altura || !peso || altura <= 0 || peso <= 0 || !genero) {
+        resultado.textContent = "Preencha todos os campos corretamente!";
         return;
       }
 
       const imc = peso / (altura * altura);
       let mensagem = `Seu IMC é ${imc.toFixed(1)}. `;
 
-      if (imc < 18.5) {
-        mensagem += "Você está muito magro(a). 💔 Recomendamos procurar a clínica da Raidivalinda 🏥.";
-      } else if (imc < 25) {
-        mensagem += "Parabéns! Você está com o peso saudável. 💪";
-      } else {
-        mensagem += "Você está com sobrepeso ou obesidade. ⚠️";
+      if (genero === 'homem') {
+        if (imc < 20) {
+          mensagem += "Você está muito magro. 💔 Recomendamos procurar a clínica da Raidivalinda 🏥.";
+        } else if (imc < 25) {
+          mensagem += "Parabéns! Você está com o peso saudável. 💪";
+        } else {
+          mensagem += "Você está com sobrepeso ou obesidade. ⚠️";
+        }
+      } else if (genero === 'mulher') {
+        if (imc < 19) {
+          mensagem += "Você está muito magra. 💔 Recomendamos procurar a clínica da Raidivalinda 🏥.";
+        } else if (imc < 24) {
+          mensagem += "Parabéns! Você está com o peso saudável. 💪";
+        } else {
+          mensagem += "Você está com sobrepeso ou obesidade. ⚠️";
+        }
       }
 
       resultado.textContent = mensagem;
