@@ -4,26 +4,34 @@
   <meta charset="UTF-8">
   <title>Cadastro Brilhante</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #ffd6f6, #ffc0cb);
+      background: linear-gradient(135deg, #ffe0f0, #ffccdd);
       height: 100vh;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-image: url('https://www.transparenttextures.com/patterns/glitter.png');
-      animation: glitter 5s infinite alternate;
+      position: relative;
     }
 
-    @keyframes glitter {
-      0% { background-position: 0 0; }
-      100% { background-position: 100px 100px; }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .form-container {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
+      border: 2px solid black;
       border-radius: 20px;
       padding: 30px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -32,12 +40,13 @@
       color: #fff;
       max-width: 400px;
       width: 100%;
+      z-index: 1;
     }
 
     .form-container h2 {
       margin-bottom: 20px;
       font-weight: bold;
-      color: #fff;
+      color: #000;
     }
 
     .form-container input,
@@ -47,7 +56,7 @@
       margin: 10px 0;
       border: none;
       border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.9);
       color: #333;
       font-size: 16px;
     }
@@ -71,12 +80,14 @@
   </style>
 </head>
 <body>
+  <canvas id="glitterCanvas"></canvas>
+  
   <div class="form-container">
     <h2>Cadastro Rosa ✨</h2>
     <form id="cadastroForm">
       <input type="email" placeholder="Seu e-mail" required>
       <input type="tel" placeholder="Seu número" required>
-      <input type="number" placeholder="Sua idade" required>
+      <input type="number" placeholder="Sua idade" min="0" required>
       <select required>
         <option value="">Selecione seu gênero</option>
         <option value="bi">Bi</option>
@@ -89,10 +100,56 @@
   </div>
 
   <script>
+    // Glitter animado
+    const canvas = document.getElementById('glitterCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    for (let i = 0; i < 100; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+        alpha: Math.random()
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 182, 193, ${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        p.alpha += (Math.random() - 0.5) * 0.05;
+        if (p.alpha < 0.3) p.alpha = 0.3;
+        if (p.alpha > 1) p.alpha = 1;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    // Formulário
     const form = document.getElementById('cadastroForm');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       alert('Cadastro enviado com sucesso! 💖');
+    });
+
+    // Responsivo
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     });
   </script>
 </body>
