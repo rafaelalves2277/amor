@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Cadastro Brilhante</title>
+  <title>Cadastro Rosa ✨</title>
   <style>
     * {
       margin: 0;
@@ -81,12 +81,14 @@
   <canvas id="glitterCanvas"></canvas>
 
   <div class="form-container">
-    <h2>Cadastro ✨</h2>
+    <h2>Cadastro Rosa ✨</h2>
     <form id="cadastroForm">
       <input type="email" placeholder="Seu e-mail" required>
       <input type="tel" placeholder="Seu número (11 dígitos)" pattern="[0-9]{11}" maxlength="11" required>
       <input type="number" placeholder="Sua idade" min="0" required>
-      <select required>
+      <input type="number" placeholder="Sua altura (em metros, ex: 1.70)" step="0.01" min="0" required id="altura">
+      <input type="number" placeholder="Seu peso (em kg)" step="0.1" min="0" required id="peso">
+      <select id="genero" required>
         <option value="">Selecione seu gênero</option>
         <option value="bi">Bi</option>
         <option value="trans">Trans</option>
@@ -95,10 +97,11 @@
       </select>
       <button type="submit">Cadastrar</button>
     </form>
+    <p id="resultado" style="margin-top: 15px; font-weight: bold; color: #d63384;"></p>
   </div>
 
   <script>
-    // Glitter animado mais visível
+    // Glitter animado
     const canvas = document.getElementById('glitterCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -141,14 +144,35 @@
 
     draw();
 
-    // Formulário
+    // IMC
     const form = document.getElementById('cadastroForm');
+    const resultado = document.getElementById('resultado');
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      alert('Cadastro enviado com sucesso! 💖');
+
+      const altura = parseFloat(document.getElementById('altura').value);
+      const peso = parseFloat(document.getElementById('peso').value);
+
+      if (!altura || !peso || altura <= 0 || peso <= 0) {
+        resultado.textContent = "Preencha altura e peso corretamente!";
+        return;
+      }
+
+      const imc = peso / (altura * altura);
+      let mensagem = `Seu IMC é ${imc.toFixed(1)}. `;
+
+      if (imc < 18.5) {
+        mensagem += "Você está muito magro(a). 💔 Recomendamos procurar a clínica da Raidivalinda 🏥.";
+      } else if (imc < 25) {
+        mensagem += "Parabéns! Você está com o peso saudável. 💪";
+      } else {
+        mensagem += "Você está com sobrepeso ou obesidade. ⚠️";
+      }
+
+      resultado.textContent = mensagem;
     });
 
-    // Responsivo
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
