@@ -1,28 +1,99 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Página</title>
-    <style>
-        #envelope {
-            margin: 150px;
-            position: relative;
-            width: 280px;
-            height: 180px;
-            border-bottom-left-radius: 6px;
-            border-bottom-right-radius: 6px;
-            margin-left: auto;
-            margin-right: auto;
-            top: 150px;
-            background-color: #f9c5c8;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Cadastro Brilhante</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffd6f6, #ffc0cb);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('https://www.transparenttextures.com/patterns/glitter.png');
+      animation: glitter 5s infinite alternate;
+    }
+
+    @keyframes glitter {
+      0% { background-position: 0 0; }
+      100% { background-position: 100px 100px; }
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      color: #fff;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .form-container input,
+    .form-container select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #333;
+      font-size: 16px;
+    }
+
+    .form-container button {
+      background-color: #ff69b4;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #ff85c1;
+      box-shadow: 0 0 10px #ff85c1, 0 0 20px #ff85c1;
+    }
+  </style>
 </head>
 <body>
-    <div id="envelope">
-        <!-- Conteúdo do envelope aqui -->
-    </div>
+  <div class="form-container">
+    <h2>Cadastro Rosa ✨</h2>
+    <form id="cadastroForm">
+      <input type="email" placeholder="Seu e-mail" required>
+      <input type="tel" placeholder="Seu número" required>
+      <input type="number" placeholder="Sua idade" required>
+      <select required>
+        <option value="">Selecione seu gênero</option>
+        <option value="bi">Bi</option>
+        <option value="trans">Trans</option>
+        <option value="gay">Gay</option>
+        <option value="normal">Normal</option>
+      </select>
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('cadastroForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Cadastro enviado com sucesso! 💖');
+    });
+  </script>
 </body>
 </html>
